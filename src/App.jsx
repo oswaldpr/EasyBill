@@ -1,35 +1,59 @@
 import { useState } from 'react'
+import parse from 'html-react-parser';
 import reactLogo from './assets/react.svg'
 import './App.css'
 import {billing} from "./models/billing.js";
+import {getProvinceList} from "./data/taxGridFees.js";
+import BillingRow from "./components/billingRow.jsx";
+import Amount from "./components/amount.jsx";
+import TaxDetail from "./components/taxDetail.jsx";
 
 function App() {
-    const testes = new billing(10, 'QC');
-    console.log(testes);
-  const [count, setCount] = useState(0);
+    const [amount, setAmount] = useState(0);
+    const [lang, setLang] = useState('fr');
+    const [province, setProvince] = useState('AB');
 
-  return (
+    const provinceList = getProvinceList(lang);
+    let optionList = provinceList.map((province)=>{
+        return <option value={province.key}>{province.value}</option>
+    })
+    const bill = new billing(amount, province);
+    if(amount > 0){
+        console.log(bill);
+    }
+
+    return (
     <div className="App">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
         <a href="https://reactjs.org" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Easy bill</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+          <div>
+              <label>Amount: </label>
+              <input type="number" id="amount" value={amount} onChange={(e) => setAmount(parseFloat(e.target.value))}/>
+          </div>
+          <div>
+              <label>Province: </label>
+              <select name="province" id="select_province" onChange={(e) => setProvince(e.target.value)}>
+                  {optionList}
+              </select>
+          </div>
+          <button onClick={() => setAmount(0)}>Reset</button>
+
+          <div>Amount: <Amount amount={bill.amount}/></div>
+          <div>Home currency: {bill.homeCurrency}</div>
+          <div>State: {bill.state}</div>
+          {bill.rows.map((singleRow)=>{
+              return <BillingRow row={singleRow}/>
+          })}
+
+          <div>Subtotal: <Amount amount={bill.subtotal}/></div>
+          <TaxDetail row={bill.taxDetails}/>
+          <div>Total: <Amount amount={bill.total}/></div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
