@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import {billing} from "./models/billing.js";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const testes = new billing(10, 'QC');
+    console.log(testes);
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
