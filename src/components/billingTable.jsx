@@ -6,7 +6,7 @@ import TableRow from "./tableRow";
 export default function BillingTable() {
     const [amount, setAmount] = useState(0);
     const [lang, setLang] = useState('fr');
-    const [province, setProvince] = useState('AB');
+    const [province, setProvince] = useState('QC');
 
     const provinceList = getProvinceList(lang);
     let optionList = provinceList.map((province)=>{
@@ -15,7 +15,8 @@ export default function BillingTable() {
 
     const billingModel = new billing(amount, province);
     const summaryRow = billingModel.getSummaryRow();
-    const headRow = ['Type', 'Amount', 'GST', 'PST', 'HST', 'QST', 'Other tax', 'Total']
+    // const headRow = ['Type', 'Amount', 'GST', 'PST', 'HST', 'QST', 'Other tax', 'Total']
+    const headRow = ['Type', 'Amount', 'GST', 'HST', 'QST', 'Total']
     if(amount > 0){
         console.log(billingModel);
     }

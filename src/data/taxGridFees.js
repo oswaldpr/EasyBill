@@ -44,42 +44,50 @@ export function taxGridFees(state = null) {
     };
 
     let tax = {};
-    tax.AB = {'code': 'AB', 'name': 'Alberta', 'tax': alberta};
-    tax.BC = {'code': 'BC', 'name': 'British Columbia', 'tax': british_columbia};
-    tax.MB = {'code': 'MB', 'name': 'Manitoba', 'tax': manitoba};
-    tax.NB = {'code': 'NB', 'name': 'New Brunswick', 'tax': new_brunswick};
-    tax.NL = {'code': 'NL', 'name': 'Newfoundland and Labrador', 'tax': newfoundland_and_labrador};
-    tax.NT = {'code': 'NT', 'name': 'Northwest Territories', 'tax': northwest_territories};
-    tax.NS = {'code': 'NS', 'name': 'Nova Scotia', 'tax': nova_scotia};
-    tax.NU = {'code': 'NU', 'name': 'Nunavut', 'tax': nunavut};
+    // tax.AB = {'code': 'AB', 'name': 'Alberta', 'tax': alberta};
+    // tax.BC = {'code': 'BC', 'name': 'British Columbia', 'tax': british_columbia};
+    // tax.MB = {'code': 'MB', 'name': 'Manitoba', 'tax': manitoba};
+    // tax.NB = {'code': 'NB', 'name': 'New Brunswick', 'tax': new_brunswick};
+    // tax.NL = {'code': 'NL', 'name': 'Newfoundland and Labrador', 'tax': newfoundland_and_labrador};
+    // tax.NT = {'code': 'NT', 'name': 'Northwest Territories', 'tax': northwest_territories};
+    // tax.NS = {'code': 'NS', 'name': 'Nova Scotia', 'tax': nova_scotia};
+    // tax.NU = {'code': 'NU', 'name': 'Nunavut', 'tax': nunavut};
+    // tax.ON = {'code': 'ON', 'name': 'Ontario', 'tax': ontario};
+    // tax.PE = {'code': 'PE', 'name': 'Prince Edward Island', 'tax': prince_edward_island};
+    // tax.QC = {'code': 'QC', 'name': 'Quebec', 'tax': quebec};
+    // tax.SK = {'code': 'SK', 'name': 'Saskatchewan', 'tax': saskatchewan};
+    // tax.YT = {'code': 'YT', 'name': 'Yukon', 'tax': yukon};
+
     tax.ON = {'code': 'ON', 'name': 'Ontario', 'tax': ontario};
-    tax.PE = {'code': 'PE', 'name': 'Prince Edward Island', 'tax': prince_edward_island};
     tax.QC = {'code': 'QC', 'name': 'Quebec', 'tax': quebec};
-    tax.SK = {'code': 'SK', 'name': 'Saskatchewan', 'tax': saskatchewan};
-    tax.YT = {'code': 'YT', 'name': 'Yukon', 'tax': yukon};
 
     return state ? tax[state] : tax;
 }
 
 export function taxesList(){
-    return ['GST', 'PST', 'HST', 'QST', 'otherTax'];
+    // return ['GST', 'PST', 'HST', 'QST', 'otherTax'];
+    return ['GST', 'HST', 'QST'];
 }
 
 export function provinceDefinition(){
     let provinceDefinition = {};
-    provinceDefinition.AB = {'code': 'AB', 'fr': 'Alberta', 'en': 'Alberta'};
-    provinceDefinition.BC = {'code': 'BC', 'fr': 'British Columbia', 'en': 'British Columbia'};
-    provinceDefinition.MB = {'code': 'MB', 'fr': 'Manitoba', 'en': 'Manitoba'};
-    provinceDefinition.NB = {'code': 'NB', 'fr': 'New Brunswick', 'en': 'New Brunswick'};
-    provinceDefinition.NL = {'code': 'NL', 'fr': 'Newfoundland and Labrador', 'en': 'Newfoundland and Labrador'};
-    provinceDefinition.NT = {'code': 'NT', 'fr': 'Northwest Territories', 'en': 'Northwest Territories'};
-    provinceDefinition.NS = {'code': 'NS', 'fr': 'Nova Scotia', 'en': 'Nova Scotia'};
-    provinceDefinition.NU = {'code': 'NU', 'fr': 'Nunavut', 'en': 'Nunavut'};
-    provinceDefinition.ON = {'code': 'ON', 'fr': 'Ontario', 'en': 'Ontario'};
-    provinceDefinition.PE = {'code': 'PE', 'fr': 'Prince Edward Island', 'en': 'Prince Edward Island'};
+    // provinceDefinition.AB = {'code': 'AB', 'fr': 'Alberta', 'en': 'Alberta'};
+    // provinceDefinition.BC = {'code': 'BC', 'fr': 'British Columbia', 'en': 'British Columbia'};
+    // provinceDefinition.MB = {'code': 'MB', 'fr': 'Manitoba', 'en': 'Manitoba'};
+    // provinceDefinition.NB = {'code': 'NB', 'fr': 'New Brunswick', 'en': 'New Brunswick'};
+    // provinceDefinition.NL = {'code': 'NL', 'fr': 'Newfoundland and Labrador', 'en': 'Newfoundland and Labrador'};
+    // provinceDefinition.NT = {'code': 'NT', 'fr': 'Northwest Territories', 'en': 'Northwest Territories'};
+    // provinceDefinition.NS = {'code': 'NS', 'fr': 'Nova Scotia', 'en': 'Nova Scotia'};
+    // provinceDefinition.NU = {'code': 'NU', 'fr': 'Nunavut', 'en': 'Nunavut'};
+    // provinceDefinition.ON = {'code': 'ON', 'fr': 'Ontario', 'en': 'Ontario'};
+    // provinceDefinition.PE = {'code': 'PE', 'fr': 'Prince Edward Island', 'en': 'Prince Edward Island'};
+    // provinceDefinition.QC = {'code': 'QC', 'fr': 'Quebec', 'en': 'Quebec'};
+    // provinceDefinition.SK = {'code': 'SK', 'fr': 'Saskatchewan', 'en': 'Saskatchewan'};
+    // provinceDefinition.YT = {'code': 'YT', 'fr': 'Yukon', 'en': 'Yukon'};
+    //
     provinceDefinition.QC = {'code': 'QC', 'fr': 'Quebec', 'en': 'Quebec'};
-    provinceDefinition.SK = {'code': 'SK', 'fr': 'Saskatchewan', 'en': 'Saskatchewan'};
-    provinceDefinition.YT = {'code': 'YT', 'fr': 'Yukon', 'en': 'Yukon'};
+    provinceDefinition.ON = {'code': 'ON', 'fr': 'Ontario', 'en': 'Ontario'};
+
     return provinceDefinition;
 }
 

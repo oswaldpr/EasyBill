@@ -1,7 +1,7 @@
 import {taxesList, taxGridFees} from "../data/taxGridFees.js";
 
 export class singleRow{
-    constructor(amount, state, otherTax = null, title = '') {
+    constructor(amount, state, otherTax = null, title = '', handleQST = true) {
         this.title = title;
         this.amount = amount;
         this.GST = 0;
@@ -15,7 +15,7 @@ export class singleRow{
         if(otherTax || otherTax === 0){
             this.otherTax = this.calculateSingleTax(this.amount, otherTax);
         } else {
-            this.initTaxes(this.amount, state);
+            this.initTaxes(this.amount, state, handleQST);
         }
 
         const taxList = taxesList();
@@ -27,11 +27,15 @@ export class singleRow{
         this.amountWithTaxes = this.amount + this.totalTax;
     }
 
-    initTaxes(amount, state){
+    initTaxes(amount, state, handleQST = true){
         const taxGrid = taxGridFees();
         const currentTaxes = taxGrid[state];
         for (const [taxName, tax] of Object.entries(currentTaxes['tax'])) {
-            this[taxName] = this.calculateSingleTax(amount, tax)
+            if(taxName === 'QST'){
+                this.QST = handleQST ? this.calculateSingleTax(amount, tax) : 0;
+            } else {
+                this[taxName] = this.calculateSingleTax(amount, tax);
+            }
         }
     }
 

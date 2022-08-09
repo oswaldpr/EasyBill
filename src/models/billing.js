@@ -21,11 +21,11 @@ export class billing {
     initRows() {
         let rowList = [];
         const amount = this.amount;
-        const singleProductFees = productFeesDefinition(amount);
-        rowList.push({'title': 'Selling price', 'amount': amount, 'state': this.purchaseState});
+        const singleProductFees = productFeesDefinition(amount, this.purchaseState);
+        rowList.push({'title': 'Selling price', 'amount': amount, 'handleQST': false});
         if(amount){
             for (const [key, definition] of Object.entries(singleProductFees)) {
-                rowList.push({'title': definition.title, 'amount': definition.amount});
+                rowList.push({'title': definition.title, 'amount': definition.amount, 'handleQST': true});
             }
         }
         return rowList;
@@ -35,8 +35,7 @@ export class billing {
         let rowDefinitions = []
         let rowList = this.initRows();
         rowList.forEach((row) => {
-            const state = row.state || this.homeState
-            rowDefinitions.push(new singleRow(row.amount, state, row.otherTax, row.title));
+            rowDefinitions.push(new singleRow(row.amount, this.purchaseState, row.otherTax, row.title, row.handleQST));
         })
         return rowDefinitions;
     }
