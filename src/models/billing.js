@@ -1,6 +1,7 @@
 import {singleRow} from "./singleRow.js";
 import {taxesList} from "../data/taxGridFees.js";
 import {productFeesDefinition} from "../data/gridFees.js";
+import {getRate} from "../data/currencyApi.js";
 
 export class billing {
     constructor(amount, state, convCurrency = 'CAD') {
@@ -71,16 +72,23 @@ export class billing {
         return rowDefinitions;
     }
 
-    convertTotal() {
+    async convertTotal() {
         if(this.convCurrency !== 'CAD'){
             let rows = this.rows;
-            rows.forEach((row) => {
-                // row.totalConverted = convertCurrency(row.amountWithTaxes);
-                row.totalConverted = 13 + ' ' + this.convCurrency;
-            })
-            // this.totalConverted = convertCurrency(this.total);
-            this.totalConverted = 12 + ' ' + this.convCurrency;
+            for (const row of rows) {
+                row.totalConverted = await this.convertCurrency(row.amountWithTaxes);
+            }
+            this.totalConverted = await this.convertCurrency(this.total);
         }
+    }
+
+    async convertCurrency() {
+        let conv = 0;
+        if(this.convCurrency !== 'CAD'){
+            const rate = await getRate(this.convCurrency);
+            conv = this.amount * rate
+        }
+        return conv;
     }
 
     getHeaderRow() {

@@ -42,7 +42,7 @@ export function productFeesDefinition(productAmount, state) {
     };
 
     if(state === 'QC'){
-        productFees.vehicleTransferFees = {'title': 'Non dealer vehicle transfer fee for ON', 'amount': 50}; //Fixed amount
+        productFees.vehicleTransferFees = {'title': 'Non dealer vehicle transfer fee for QC', 'amount': 50}; //Fixed amount
         productFees.environmentalFees = {'title': 'Environmental fee', 'amount': 10}; //Fixed amount
     }
 

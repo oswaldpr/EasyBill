@@ -2,6 +2,7 @@ import {useState} from "react";
 import {getProvinceList} from "../data/taxGridFees.js";
 import {billing} from "../models/billing.js";
 import TableRow from "./tableRow";
+import {getCurrencyList} from "../data/currencyApi.js";
 
 export default function BillingTable() {
     const [amount, setAmount] = useState(0);
@@ -10,8 +11,13 @@ export default function BillingTable() {
     const [currency, setCurrency] = useState('CAD');
 
     const provinceList = getProvinceList(lang);
-    let optionList = provinceList.map((province)=>{
+    let provinceOptionList = provinceList.map((province)=>{
         return <option value={province.key}>{province.value}</option>
+    })
+
+    const currencyList = getCurrencyList();
+    let currencyOptionList = currencyList.map((currency)=>{
+        return <option value={currency}>{currency}</option>
     })
 
     const billingModel = new billing(amount, province, currency);
@@ -35,13 +41,13 @@ export default function BillingTable() {
               <div className="purchase_select">
                   <label>Province: </label>
                   <select name="province" onChange={(e) => setProvince(e.target.value)}>
-                      {optionList}
+                      {provinceOptionList}
                   </select>
               </div>
               {/*<div className="currency_select">*/}
               {/*    <label>Currency: </label>*/}
               {/*    <select name="currency" onChange={(e) => setCurrency(e.target.value)}>*/}
-              {/*        {optionList}*/}
+              {/*        {currencyOptionList}*/}
               {/*    </select>*/}
               {/*</div>*/}
               <button onClick={() => setAmount(0)}>Reset</button>
