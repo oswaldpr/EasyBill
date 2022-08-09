@@ -1,9 +1,8 @@
 import Amount from "./amount.jsx";
-import BillingRow from "./billingRow.jsx";
 import {taxesList} from "../data/taxGridFees.js";
 
 export default function TaxDetail(props) {
-    const row = props.row || {};
+    const row = props.row;
     let taxList = [];
     const taxDefList = taxesList();
     for (const [name, value] of Object.entries(row)) {
@@ -14,7 +13,6 @@ export default function TaxDetail(props) {
 
     return (
         <div>
-
             <p>Total taxes: <Amount amount={row.totalTax}/></p>
             <p>
                 {taxList.map((singleTax)=>{

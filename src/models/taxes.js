@@ -1,7 +1,7 @@
 
 export class taxes {
-    constructor(amount, state, customTax = null) {
+    constructor(amount, state, otherTax = null) {
         this.amount = amount;
-        this.customTax = customTax;
+        this.otherTax = otherTax;
     }
 }

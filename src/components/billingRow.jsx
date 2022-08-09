@@ -9,6 +9,7 @@ export default function BillingRow(props) {
             <p>{title}: <Amount amount={row.amount}/></p>
             <TaxDetail row={row}/>
             Amount with taxes: <Amount amount={row.amountWithTaxes}/>
+            <hr/>
         </div>
     );
 }

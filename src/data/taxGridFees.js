@@ -62,7 +62,7 @@ export function taxGridFees(state = null) {
 }
 
 export function taxesList(){
-    return ['GST', 'PST', 'HST', 'QST', 'customTax'];
+    return ['GST', 'PST', 'HST', 'QST', 'otherTax'];
 }
 
 export function provinceDefinition(){
