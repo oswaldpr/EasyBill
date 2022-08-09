@@ -36,6 +36,6 @@ export class singleRow{
     }
 
     calculateSingleTax(amount, tax){
-        return  amount * tax / 100;
+        return amount * tax / 100;
     }
 }

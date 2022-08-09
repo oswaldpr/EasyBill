@@ -1,6 +1,6 @@
 import {singleRow} from "./singleRow.js";
 import {taxesList} from "../data/taxGridFees.js";
-import {productFees} from "../data/gridFees.js";
+import {productFeesDefinition} from "../data/gridFees.js";
 
 export class billing {
     constructor(amount, state, convCurrency = null) {
@@ -21,14 +21,12 @@ export class billing {
     initRows() {
         let rowList = [];
         const amount = this.amount;
-        const singleProductFees = productFees(amount);
-        rowList.push({'amount': amount, 'title': 'Selling price', 'state': this.purchaseState});
+        const singleProductFees = productFeesDefinition(amount);
+        rowList.push({'title': 'Selling price', 'amount': amount, 'state': this.purchaseState});
         if(amount){
-            rowList.push({'amount': singleProductFees, 'title': 'Purchase fees'});
-            rowList.push({'amount': 50, 'title': 'Non-Dealer fees'});
-            rowList.push({'amount': 10, 'title': 'Environmental fees'});
-            rowList.push({'amount': 65, 'title': 'AuctionNow fees'});
-            rowList.push({'amount': 35, 'title': 'Exit fees'});
+            for (const [key, definition] of Object.entries(singleProductFees)) {
+                rowList.push({'title': definition.title, 'amount': definition.amount});
+            }
         }
         return rowList;
     }
