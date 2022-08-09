@@ -36,14 +36,14 @@ function initProductGridFees() {
 
 export function productFeesDefinition(productAmount, state) {
     let productFees = {
-        purchaseFees: {'title': 'Purchase fees', 'amount': 0},
-        exitFees: {'title': 'Exit fees', 'amount': 0},
-        auctionNowFees: {'title': 'AuctionNow fees', 'amount': 0},
+        purchaseFees: {'title': 'Purchase fee', 'amount': 0},
+        exitFees: {'title': 'Exit fee', 'amount': 0},
+        auctionNowFees: {'title': 'AuctionNow fee', 'amount': 0},
     };
 
     if(state === 'QC'){
         productFees.vehicleTransferFees = {'title': 'Non dealer vehicle transfer fee for ON', 'amount': 50}; //Fixed amount
-        productFees.environmentalFees = {'title': 'Environmental fees', 'amount': 10}; //Fixed amount
+        productFees.environmentalFees = {'title': 'Environmental fee', 'amount': 10}; //Fixed amount
     }
 
     if(state === 'ON'){

@@ -3,12 +3,11 @@ import {taxesList} from "../data/taxGridFees.js";
 import {productFeesDefinition} from "../data/gridFees.js";
 
 export class billing {
-    constructor(amount, state, convCurrency = null) {
+    constructor(amount, state, convCurrency = 'CAD') {
         const homeCurrency = 'CAD';
         this.amount = amount;
         this.homeCurrency = homeCurrency;
         this.convCurrency = convCurrency || homeCurrency;
-        this.homeState = 'QC';
         this.purchaseState = state;
         this.rows = this.rowDefinitions();
         this.subtotal = 0; // total without taxes
@@ -16,6 +15,7 @@ export class billing {
         this.total = 0; // total with taxes
         this.totalConverted = 0;
         this.calculateTotal();
+        this.convertTotal();
     }
 
     initRows() {
@@ -54,7 +54,7 @@ export class billing {
 
         let rowDefinitions = this.rows;
         rowDefinitions.forEach((row) => {
-            const taxList = taxesList();
+            const taxList = taxesList(this.purchaseState);
             taxList.forEach((tax) => {
                 taxDetails[tax] = taxDetails[tax] + row[tax];
             });
@@ -71,17 +71,50 @@ export class billing {
         return rowDefinitions;
     }
 
+    convertTotal() {
+        if(this.convCurrency !== 'CAD'){
+            let rows = this.rows;
+            rows.forEach((row) => {
+                // row.totalConverted = convertCurrency(row.amountWithTaxes);
+                row.totalConverted = 13 + ' ' + this.convCurrency;
+            })
+            // this.totalConverted = convertCurrency(this.total);
+            this.totalConverted = 12 + ' ' + this.convCurrency;
+        }
+    }
+
+    getHeaderRow() {
+        const provinceTaxesList = taxesList(this.purchaseState);
+        let headRow = ['Type', 'Amount'];
+        provinceTaxesList.forEach((tax) => {
+            headRow.push(tax);
+        })
+        headRow.push('Total');
+
+        if(this.convCurrency !== 'CAD'){
+            headRow.push('Currency');
+        }
+
+        return headRow;
+    }
+
     getSummaryRow(title = null) {
         let totalTitle = title || 'Total';
-        return {
+        const summaryRow = {
             'title' : totalTitle,
             'amount' : this.subtotal,
-            'GST' : this.taxDetails.GST,
-            'PST' : this.taxDetails.PST,
-            'HST' : this.taxDetails.HST,
-            'QST' : this.taxDetails.QST,
-            'otherTax' : this.taxDetails.otherTax,
             'amountWithTaxes' : this.total,
         };
+
+        if(this.convCurrency !== 'CAD'){
+            summaryRow.totalConverted = this.totalConverted;
+        }
+
+        const provinceTaxesList = taxesList(this.purchaseState);
+        provinceTaxesList.forEach((tax) => {
+            summaryRow[tax] = this.taxDetails[tax];
+        })
+        // summaryRow.amountWithTaxes = this.total;
+        return summaryRow;
     }
 }

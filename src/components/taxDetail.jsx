@@ -4,7 +4,7 @@ import {taxesList} from "../data/taxGridFees.js";
 export default function TaxDetail(props) {
     const row = props.row;
     let taxList = [];
-    const taxDefList = taxesList();
+    const taxDefList = taxesList(row.state);
     for (const [name, value] of Object.entries(row)) {
         if(taxDefList.includes(name) && value > 0){
             taxList.push({'name': name, 'value': value});

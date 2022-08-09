@@ -39,3 +39,52 @@
 .read-the-docs {
   color: #888;
 }
+
+.card {
+  width: 100%;
+}
+
+.section {
+  margin-bottom: 2%;
+  width: 100%;
+}
+
+.selectors {
+  display: flex;
+  position: relative;
+}
+
+.selectors div {
+  margin: auto 1%;
+}
+
+.selectors button {
+
+}
+
+select, input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 2em;
+  line-height: 2em;
+}
+
+.hidden {
+  display: none;
+}
+
+.billing_table{
+  text-align: right;
+}
+
+.billing_table .title{
+  text-align: left;
+}
+
+.billing_table td{
+  margin: 0 2%;
+}
+
+th, .summary {
+  font-weight: 800;
+}

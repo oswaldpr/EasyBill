@@ -7,16 +7,18 @@ export default function BillingTable() {
     const [amount, setAmount] = useState(0);
     const [lang, setLang] = useState('fr');
     const [province, setProvince] = useState('QC');
+    const [currency, setCurrency] = useState('CAD');
 
     const provinceList = getProvinceList(lang);
     let optionList = provinceList.map((province)=>{
         return <option value={province.key}>{province.value}</option>
     })
 
-    const billingModel = new billing(amount, province);
+    const billingModel = new billing(amount, province, currency);
     const summaryRow = billingModel.getSummaryRow();
-    // const headRow = ['Type', 'Amount', 'GST', 'PST', 'HST', 'QST', 'Other tax', 'Total']
-    const headRow = ['Type', 'Amount', 'GST', 'HST', 'QST', 'Total']
+    const headRow = billingModel.getHeaderRow();
+    const tableClass = amount > 0 ? 'billing_table section' : 'billing_table section hidden';
+
     if(amount > 0){
         console.log(billingModel);
     }
@@ -25,22 +27,30 @@ export default function BillingTable() {
     <div className="App">
       <h1>Easy bill</h1>
       <div className="card">
-          <div>
-              <label>Amount: </label>
-              <input type="number" value={amount} onChange={(e) => setAmount(parseFloat(e.target.value))}/>
+          <div className="selectors section">
+              <div className="amount">
+                  <label>Amount: </label>
+                  <input type="number" value={amount} onChange={(e) => setAmount(parseFloat(e.target.value))}/>
+              </div>
+              <div className="purchase_select">
+                  <label>Province: </label>
+                  <select name="province" onChange={(e) => setProvince(e.target.value)}>
+                      {optionList}
+                  </select>
+              </div>
+              {/*<div className="currency_select">*/}
+              {/*    <label>Currency: </label>*/}
+              {/*    <select name="currency" onChange={(e) => setCurrency(e.target.value)}>*/}
+              {/*        {optionList}*/}
+              {/*    </select>*/}
+              {/*</div>*/}
+              <button onClick={() => setAmount(0)}>Reset</button>
           </div>
-          <div>
-              <label>Province: </label>
-              <select name="province" onChange={(e) => setProvince(e.target.value)}>
-                  {optionList}
-              </select>
-          </div>
-          <button onClick={() => setAmount(0)}>Reset</button>
-          <table>
+          <table className={tableClass}>
               <thead>
               <tr>
-                  {headRow.map((headTitle)=>{
-                      return <th>{headTitle}</th>
+                  {headRow.map((headTitle, id)=>{
+                      return <th className={id === 0 ? "title" : ""}>{headTitle}</th>
                   })}
               </tr>
               </thead>
@@ -48,7 +58,7 @@ export default function BillingTable() {
                   {billingModel.rows.map((singleRow)=>{
                       return <TableRow row={singleRow}/>
                   })}
-                  <TableRow row={summaryRow}/>
+                  <TableRow row={summaryRow} customClass="summary"/>
               </tbody>
           </table>
       </div>
