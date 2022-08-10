@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import BillingTable from "./components/billingTable.jsx";
-import {Counter} from "./store/counter/counter.jsx";
 import Bill from "./store/bill/bill.jsx";
 
 function App() {

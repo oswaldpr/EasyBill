@@ -3,7 +3,8 @@ import {getCurrencyList} from "../../data/currencyApi.js";
 import {useDispatch, useSelector} from "react-redux";
 import {reset, updateAmount, updateCurrency, updateProvince} from "./billSlice.js";
 import TableRow from "../../components/tableRow.jsx";
-import {getHeaderRow, getSummaryRow} from "../../data/helper.js";
+import {getHeaderRowList, getSummaryRowDefinition} from "../../data/helper.js";
+import {Bid} from "./bid";
 
 
 export default function Bill() {
@@ -24,8 +25,8 @@ export default function Bill() {
         return <option value={currency}>{currency}</option>
     })
 
-    const headRow = getHeaderRow(billingModel);
-    const summaryRow = getSummaryRow(billingModel);
+    const headRow = getHeaderRowList(billingModel);
+    const summaryRow = getSummaryRowDefinition(billingModel);
     const tableClass = amount > 0 ? 'billing_table section' : 'billing_table section hidden';
 
     return (
@@ -51,6 +52,7 @@ export default function Bill() {
               </div>
               <button onClick={() => dispatch(reset())}>Reset</button>
           </div>
+          <Bid />
           <table className={tableClass}>
               <thead>
               <tr>

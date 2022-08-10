@@ -8,6 +8,8 @@ export const billSlice = createSlice({
     initialState: {
         lang: 'fr',
         amount: 0,
+        showBidSection: false,
+        bidAmount: 0,
         province: 'QC',
         convCurrency: 'CAD',
         conversionRate: 0,
@@ -17,11 +19,26 @@ export const billSlice = createSlice({
     reducers: {
         updateAmount: (state, amount) => {
             state.amount = parseFloat(amount.payload);
+
+            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
+            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+        },
+        updateShowBidSection: (state, checked) => {
+            state.showBidSection = checked.payload;
+        },
+        updateBidAmount: (state, bidAmount) => {
+            state.bidAmount = parseFloat(bidAmount.payload);
+        },
+        executeBidAction: (state, data) => {
+            const type = data.payload;
+            state.amount = type === 'add' ? state.amount + state.bidAmount : state.amount - state.bidAmount;
+
             state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
             state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
         },
         updateProvince: (state, province) => {
             state.province = province.payload;
+
             state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
             state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
         },
@@ -42,8 +59,8 @@ export const billSlice = createSlice({
             state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
         },
         reset: (state) => {
-            debugger
             state.amount = 0;
+            state.bidAmount = 0;
             state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
             state.convertedAmountList = [];
         },
@@ -51,6 +68,6 @@ export const billSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateAmount, updateProvince, updateCurrency, convertCurrency, reset } = billSlice.actions
+export const { updateAmount, updateProvince, updateCurrency, updateBidAmount, executeBidAction, reset, updateShowBidSection } = billSlice.actions
 
 export default billSlice.reducer
