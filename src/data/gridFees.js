@@ -47,7 +47,7 @@ export function productFeesDefinition(productAmount, state) {
     }
 
     if(state === 'ON'){
-        productFees.nonDealerFees = {'title': 'Non-Dealer fee Non-Branded Carproof fee', 'amount': 50}; //Fixed amount
+        productFees.nonDealerFees = {'title': 'Non-Dealer fee Non-Branded Car proof fee', 'amount': 50}; //Fixed amount
         productFees.vehicleTransferFees = {'title': 'Non dealer vehicle transfer fee for ON' , 'amount': 75}; //Fixed amount
         // productFees.onlineFees = {'title': 'Online fee', 'amount': 75}; //Fixed amount
     }

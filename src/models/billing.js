@@ -16,7 +16,6 @@ export class billing {
         this.total = 0; // total with taxes
         this.totalConverted = 0;
         this.calculateTotal();
-        this.convertTotal();
     }
 
     initRows() {
@@ -57,12 +56,12 @@ export class billing {
         rowDefinitions.forEach((row) => {
             const taxList = taxesList(this.purchaseState);
             taxList.forEach((tax) => {
-                taxDetails[tax] = taxDetails[tax] + row[tax];
+                taxDetails[tax] = this.addition(taxDetails[tax], row[tax]);
             });
 
-            taxDetails.totalTax = taxDetails.totalTax + row.totalTax;
-            subtotal = subtotal + row.amount;
-            total = total + row.amountWithTaxes;
+            taxDetails.totalTax = this.addition(taxDetails.totalTax, row.totalTax);
+            subtotal = this.addition(subtotal, row.amount);
+            total = this.addition(total, row.amountWithTaxes);
         })
 
         this.subtotal = subtotal;
@@ -80,6 +79,7 @@ export class billing {
             }
             this.totalConverted = await this.convertCurrency(this.total);
         }
+        return this;
     }
 
     async convertCurrency() {
@@ -124,5 +124,9 @@ export class billing {
         })
         // summaryRow.amountWithTaxes = this.total;
         return summaryRow;
+    }
+
+    addition(value1, value2){
+        return parseFloat(value1) + parseFloat(value2)
     }
 }
