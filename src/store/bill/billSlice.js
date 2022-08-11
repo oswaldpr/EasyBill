@@ -26,6 +26,7 @@ export const billSlice = createSlice({
         conversionRate: 0,
         rateDefinition: {'CAD': 1},
         billingModel : null,
+        finalModel : null,
         convertedAmountList: [],
     },
     reducers: {

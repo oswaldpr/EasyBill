@@ -6,6 +6,7 @@ import TableRow from "../../components/tableRow.jsx";
 import {getHeaderRowList, getSummaryRowDefinition} from "../../data/helper.js";
 import {Bid} from "./bid";
 import Amount from "../../components/amount";
+import {Table} from "./table.jsx";
 
 
 export default function Bill() {
@@ -15,6 +16,9 @@ export default function Bill() {
     const rateDefinition = useSelector((state) => state.bill.rateDefinition);
     let billingModel = useSelector((state) => state.bill.billingModel);
     billingModel = typeof billingModel === 'string' ? JSON.parse(billingModel) : billingModel;
+    let finalModel = useSelector((state) => state.bill.finalModel);
+    finalModel = typeof finalModel === 'string' ? JSON.parse(finalModel) : finalModel;
+
     let totalCAD;
     let totalConv;
     let currency;
@@ -37,35 +41,20 @@ export default function Bill() {
         return <option key={province.key} value={province.key}>{province.value}</option>
     })
 
-    let tableHtml = '';
+    let impactTableHtml = '';
+    let finalTableHtml = '';
     if(billingModel){
         currency = billingModel.currency;
         totalCAD = billingModel.total > 0 ? billingModel.total : null;
         totalConv = billingModel.totalConverted ? billingModel.totalConverted : null;
-        classTotal = totalCAD ? '' : 'hidden';
+        classTotal = totalCAD ? 'width_50' : 'hidden width_50';
         classTotalConv = billingModel.totalConverted === 0 ? 'hidden' : '';
 
-        const headRow = getHeaderRowList(billingModel);
-        const summaryRow = getSummaryRowDefinition(billingModel);
+        impactTableHtml = (<Table model={billingModel}/>);
 
-        const tableClass = amount > 0 ? 'billing_table section' : 'billing_table section hidden';
-        tableHtml = (
-            <table className={tableClass}>
-                <thead>
-                <tr>
-                    {headRow.map((headTitle, id)=>{
-                        return <th className={id === 0 ? "title" : ""}>{headTitle}</th>
-                    })}
-                </tr>
-                </thead>
-                <tbody>
-                {billingModel.rows.map((singleRow)=>{
-                    return <TableRow row={singleRow}/>
-                })}
-                <TableRow row={summaryRow} customClass="summary"/>
-                </tbody>
-            </table>
-        )
+        if(finalModel){
+            finalTableHtml = (<Table model={finalModel}/>);
+        }
     }
 
     return (
@@ -73,7 +62,7 @@ export default function Bill() {
             <h1>Easy bill</h1>
             <div className="easy_bill_app">
                 <div className="section flex">
-                    <div className="amount">
+                    <div className="amount width_50">
                         <h3>Amount CAD: </h3>
                         <input type="number" value={amount} onChange={(e) => dispatch(updateAmount(e.target.value))}/>
                     </div>
@@ -107,7 +96,13 @@ export default function Bill() {
                     <button onClick={() => dispatch(reset())}>Reset</button>
                 </div>
 
-                {tableHtml}
+                <div className="section section_table">
+                    {impactTableHtml}
+                </div>
+
+                <div className="section section_table">
+                    {finalTableHtml}
+                </div>
             </div>
         </div>
     )

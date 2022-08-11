@@ -17,7 +17,7 @@ export function Bid() {
             </div>
             <div className={showBidSectionClass}>
                 <button aria-label="Increment value" onClick={() => dispatch(executeBidAction('add'))}> + </button>
-                <input className="width_40" type="number" placeholder="BID" value={bidAmount} onChange={(e) => dispatch(updateBidAmount(e.target.value))}/>
+                <input className="width_40" type="number" placeholder="BID" value={bidAmount ? bidAmount : ''} onChange={(e) => dispatch(updateBidAmount(e.target.value))}/>
                 <button aria-label="Decrement value" onClick={() => dispatch(executeBidAction('remove'))}> - </button>
             </div>
         </div>
