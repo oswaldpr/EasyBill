@@ -2,6 +2,7 @@ import {singleRow} from "./singleRow.js";
 import {taxesList} from "../data/taxGridFees.js";
 import {productFeesDefinition} from "../data/productGridFees.js";
 import {getRate} from "../data/currencyApi.js";
+import {addition} from "../data/helper.js";
 
 export class billing {
     constructor(amount, state, convCurrency = 'CAD', initRowsList = true) {
@@ -70,12 +71,12 @@ export class billing {
         rowDefinitions.forEach((row) => {
             const taxList = taxesList(this.purchaseState);
             taxList.forEach((tax) => {
-                taxDetails[tax] = this.addition(taxDetails[tax], row[tax]);
+                taxDetails[tax] = addition(taxDetails[tax], row[tax]);
             });
 
-            taxDetails.totalTax = this.addition(taxDetails.totalTax, row.totalTax);
-            subtotal = this.addition(subtotal, row.amount);
-            total = this.addition(total, row.amountWithTaxes);
+            taxDetails.totalTax = addition(taxDetails.totalTax, row.totalTax);
+            subtotal = addition(subtotal, row.amount);
+            total = addition(total, row.amountWithTaxes);
         })
 
         this.subtotal = subtotal;
@@ -138,9 +139,5 @@ export class billing {
         })
         // summaryRow.amountWithTaxes = this.total;
         return summaryRow;
-    }
-
-    addition(value1, value2){
-        return parseFloat(value1) + parseFloat(value2)
     }
 }

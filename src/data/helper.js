@@ -43,12 +43,8 @@ export function getSummaryRowDefinition(billingModel, title = null) {
     return summaryRow;
 }
 
-export function buildConvertedAmountRow(title, amount, conversionRate = 0) {
-    const amountConverted = amount * conversionRate;
-    return {
-        'title': title,
-        'amount': amountConverted,
-    };
+export function addition(value1, value2){
+    return parseFloat(value1) + parseFloat(value2)
 }
 
 export function executeConversion(billingModel, rateDefinition = 0) {
@@ -91,7 +87,7 @@ export function buildProductBillingModelFromState(state){
 export function buildCompanyBillingModelFromState(state) {
     const billingModel = state.billingModel;
     const companyBillingModel = new billing(billingModel.total, state.province, state.convCurrency, false);
-    const companyRowList = initCompanyFeesRows(billingModel.total, state.city, state.runDrive);
+    const companyRowList = initCompanyFeesRows(billingModel.total, state.city, state.hasRunDrive, state.runDrive);
     companyBillingModel.updateRowList(companyRowList);
 
     return executeConversion(companyBillingModel, state.rateDefinition);

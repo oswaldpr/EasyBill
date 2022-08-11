@@ -42,6 +42,7 @@ export default function Bill() {
 
     let impactTableHtml = '';
     let companyTableHtml = '';
+    let finalHtml = '';
     if(billingModel){
         currency = billingModel.currency;
         totalCAD = billingModel.total > 0 ? billingModel.total : null;
@@ -54,6 +55,12 @@ export default function Bill() {
         if(companyBillingModel){
             companyTableHtml = (<CompanyBill/>);
         }
+
+        finalHtml = (
+            <div className="section flex">
+
+            </div>
+        )
     }
 
     return (
@@ -100,6 +107,7 @@ export default function Bill() {
                 </div>
 
                 {companyTableHtml}
+                {finalHtml}
             </div>
         </div>
     )

@@ -21,6 +21,7 @@ export const billSlice = createSlice({
         amount: 0,
         showBidSection: false,
         showCompanyBillSection: false,
+        hasRunDrive: false,
         runDrive: false,
         bidAmount: null,
         province: 'QC',
@@ -83,6 +84,10 @@ export const billSlice = createSlice({
             state.city = city.payload;
             state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
+        updateHasRunDrive: (state, hasRunDrive) => {
+            state.hasRunDrive = hasRunDrive.payload;
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
+        },
         updateRunDrive: (state, runDrive) => {
             state.runDrive = runDrive.payload;
             state.companyBillingModel = buildCompanyBillingModelFromState(state);
@@ -112,6 +117,6 @@ export const billSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { updateAmount, updateProvince, updateCurrency, updateBidAmount,
     executeBidAction, reset, updateShowBidSection, updateDefinitionRate,
-    updateShowCompanyBillSection, updateCity, updateRunDrive } = billSlice.actions
+    updateShowCompanyBillSection, updateCity, updateHasRunDrive, updateRunDrive } = billSlice.actions
 
 export default billSlice.reducer
