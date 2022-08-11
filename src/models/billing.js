@@ -1,16 +1,16 @@
 import {singleRow} from "./singleRow.js";
 import {taxesList} from "../data/taxGridFees.js";
-import {productFeesDefinition} from "../data/gridFees.js";
+import {productFeesDefinition} from "../data/productGridFees.js";
 import {getRate} from "../data/currencyApi.js";
 
 export class billing {
-    constructor(amount, state, convCurrency = 'CAD') {
+    constructor(amount, state, convCurrency = 'CAD', rowsList = null) {
         const currency = 'CAD';
         this.amount = amount;
         this.currency = currency;
         this.convCurrency = convCurrency || currency;
         this.purchaseState = state;
-        this.rows = this.rowDefinitions();
+        this.rows = rowsList || this.rowDefinitions();
         this.subtotal = 0; // total without taxes
         this.taxDetails = {}; // each taxes + total taxes
         this.total = 0; // total with taxes
@@ -38,6 +38,14 @@ export class billing {
             rowDefinitions.push(new singleRow(row.amount, this.purchaseState, row.otherTax, row.title, row.handleQST));
         })
         return rowDefinitions;
+    }
+
+    updateRowList(rowList = [], amount = null){
+        if(amount){
+            this.amount = amount
+        }
+        this.rows = rowList
+        this.calculateTotal();
     }
 
     calculateTotal() {
