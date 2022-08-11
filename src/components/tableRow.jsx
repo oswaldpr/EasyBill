@@ -14,17 +14,17 @@ export default function TableRow(props) {
             taxList.push({'name': name, 'value': value});
         }
     }
-    const convClass = row.totalConverted !== 0 ? '' : 'hidden';
+    const convClass = row.totalConverted ? '' : 'hidden';
 
     return (
         <tr className={customClass}>
             <td className="title">{title}</td>
-            <td><Amount amount={row.amount}/></td>
+            <td><Amount amount={row.amount} currency={row.currency}/></td>
             {taxList.map((singleTax)=>{
-                return <td> <Amount amount={singleTax.value}/> </td>
+                return <td> <Amount amount={singleTax.value} currency={row.currency}/> </td>
             })}
-            <td><Amount amount={row.amountWithTaxes}/></td>
-            <td className={convClass}>{row.totalConverted}</td>
+            <td><Amount amount={row.amountWithTaxes} currency={row.currency}/></td>
+            <td className={convClass}><Amount amount={row.totalConverted} currency={row.currency}/></td>
         </tr>
     );
 }

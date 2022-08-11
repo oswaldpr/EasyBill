@@ -6,9 +6,9 @@ export default function BillingRow(props) {
     const title = row.title || 'Amount';
     return (
         <div className="billingRow">
-            <p>{title}: <Amount amount={row.amount}/></p>
+            <p>{title}: <Amount amount={row.amount} currency={row.currency}/></p>
             <TaxDetail row={row}/>
-            Amount with taxes: <Amount amount={row.amountWithTaxes}/>
+            Amount with taxes: <Amount amount={row.amountWithTaxes} currency={row.currency}/>
             <hr/>
         </div>
     );

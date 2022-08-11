@@ -1,9 +1,12 @@
-
 export default function Amount(props) {
     const currency = props.currency || 'CAD';
-    let amount = 0;
-    if(props.amount || props.amount !== null){
-        amount = props.amount !== 0 ? props.amount.toFixed(2) : props.amount;
+    let amount = 0 + ' ' + currency;
+    if(props.amount){
+        if(typeof props.amount === 'string'){
+            amount = props.amount;
+        } else {
+            amount = props.amount.toFixed(2) + ' ' + currency;
+        }
     }
-    return (<span>{amount} {currency} </span>);
+    return (<span>{amount}</span>);
 }

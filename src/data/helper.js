@@ -1,5 +1,4 @@
 import {taxesList} from "./taxGridFees.js";
-import {getRate} from "./currencyApi.js";
 
 export function getHeaderRowList(billingModel) {
     let headRow = [];
@@ -42,20 +41,6 @@ export function getSummaryRowDefinition(billingModel, title = null) {
     return summaryRow;
 }
 
-
-async function convertTotal(billingModel) {
-    if(billingModel){
-        if(billingModel.convCurrency !== 'CAD'){
-            let rows = billingModel.rows;
-            for (const row of rows) {
-                row.totalConverted = await billingModel.convertCurrency(row.amountWithTaxes);
-            }
-            billingModel.totalConverted = await billingModel.convertCurrency(billingModel.total);
-        }
-    }
-    return billingModel;
-}
-
 export function buildConvertedAmountRow(title, amount, conversionRate = 0) {
     const amountConverted = amount * conversionRate;
     return {
@@ -64,20 +49,43 @@ export function buildConvertedAmountRow(title, amount, conversionRate = 0) {
     };
 }
 
-export function buildConvertedAmountList(billingModel, conversionRate = 0) {
+export function executeConversion(billingModel, rateDefinition = 0) {
     let convertedAmountList = [];
     if(billingModel){
         billingModel = typeof billingModel === 'string' ? JSON.parse(billingModel) : billingModel;
+        const currency = billingModel.convCurrency;
+        const conversionRate = rateDefinition[currency];
         if(billingModel.convCurrency !== 'CAD' && conversionRate > 0){
             let rows = billingModel.rows;
             for (const row of rows) {
+                row.convCurrency = currency;
+                const totalConverted = row.amountWithTaxes * conversionRate;
+                row.totalConverted = totalConvertedDisplay(totalConverted, currency);
                 const convertedRow = buildConvertedAmountRow(row.title, row.amountWithTaxes, conversionRate);
                 convertedAmountList.push(convertedRow);
             }
 
-            const convertedRow = buildConvertedAmountRow('TotalC', billingModel.total, conversionRate);
+            const totalConverted = billingModel.total * conversionRate;
+            billingModel.totalConverted = totalConvertedDisplay(totalConverted, currency);
+
+            const convertedRow = buildConvertedAmountRow('Total ' + currency, billingModel.total, conversionRate);
             convertedAmountList.push(convertedRow);
         }
     }
-    return convertedAmountList;
+
+    return {
+        'billingModel': billingModel,
+        'convertedAmountList': convertedAmountList,
+    }
+
+    function totalConvertedDisplay(amount, currency){
+        let amountDisplayed;
+        if(amount === 0){
+            amountDisplayed = amount;
+        } else {
+            amountDisplayed = currency === 'XOF' ? parseInt(amount) : amount.toFixed(2);
+        }
+
+        return amountDisplayed + ' ' + currency;
+    }
 }

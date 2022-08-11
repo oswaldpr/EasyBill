@@ -5,10 +5,10 @@ import {getRate} from "../data/currencyApi.js";
 
 export class billing {
     constructor(amount, state, convCurrency = 'CAD') {
-        const homeCurrency = 'CAD';
+        const currency = 'CAD';
         this.amount = amount;
-        this.homeCurrency = homeCurrency;
-        this.convCurrency = convCurrency || homeCurrency;
+        this.currency = currency;
+        this.convCurrency = convCurrency || currency;
         this.purchaseState = state;
         this.rows = this.rowDefinitions();
         this.subtotal = 0; // total without taxes

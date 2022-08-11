@@ -43,7 +43,7 @@ export default function BillingListing() {
           <button onClick={() => setAmount(0)}>Reset</button>
 
           <div>Amount: <Amount amount={bill.amount}/></div>
-          <div>Home currency: {bill.homeCurrency}</div>
+          <div>Home currency: {bill.currency}</div>
           <div>State: {bill.purchaseState}</div>
           {bill.rows.map((singleRow)=>{
               return <BillingRow row={singleRow}/>

@@ -16,7 +16,7 @@ export default function TaxDetail(props) {
             <p>Total taxes: <Amount amount={row.totalTax}/></p>
             <p>
                 {taxList.map((singleTax)=>{
-                    return <span>{singleTax.name}: <Amount amount={singleTax.value}/> </span>
+                    return <span>{singleTax.name}: <Amount amount={singleTax.value} currency={row.currency}/> </span>
                 })}
             </p>
         </div>

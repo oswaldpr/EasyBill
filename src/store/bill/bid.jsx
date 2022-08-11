@@ -13,7 +13,7 @@ export function Bid() {
         <div className="section flex">
             <div className="showBidSection_checkbox flex">
                 <input name="showBidSection" type="checkbox" onChange={(e) => dispatch(updateShowBidSection(e.target.checked))}/>
-                <label for="showBidSection">Show bid section</label>
+                <label htmlFor="showBidSection">Show bid section</label>
             </div>
             <div className={showBidSectionClass}>
                 <button aria-label="Increment value" onClick={() => dispatch(executeBidAction('add'))}>

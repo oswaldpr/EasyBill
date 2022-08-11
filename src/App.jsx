@@ -12,8 +12,8 @@ function App() {
               <img src={reactLogo} className="logo react" alt="React logo" />
             </a>
         </div>
-        {/*<Bill />*/}
-        <BillingTable />
+        <Bill />
+        {/*<BillingTable />*/}
     </div>
   )
 }

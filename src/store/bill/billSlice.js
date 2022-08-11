@@ -1,7 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit';
 import {billing} from "../../models/billing.js";
-import {getRate} from "../../data/currencyApi.js";
-import {buildConvertedAmountList} from "../../data/helper.js";
+import {executeConversion} from "../../data/helper.js";
+
+
+// export let fetchCurrencyRate = createAsyncThunk(
+//     'bill/fetchCurrencyRate',
+//     async (currency) => {
+//         debugger
+//         return {
+//             'currency': currency,
+//             'rate': await getRate(currency),
+//         };
+//     }
+// )
 
 export const billSlice = createSlice({
     name: 'bill',
@@ -13,15 +24,22 @@ export const billSlice = createSlice({
         province: 'QC',
         convCurrency: 'CAD',
         conversionRate: 0,
-        billingModel : JSON.stringify(new billing(0, 'QC', 'CAD')),
+        rateDefinition: {'CAD': 1},
+        billingModel : null,
         convertedAmountList: [],
     },
     reducers: {
+        updateDefinitionRate: (state, rateDefinition) => {
+            const {currency, rate} = rateDefinition.payload
+            state.rateDefinition[currency] = rate;
+        },
         updateAmount: (state, amount) => {
             state.amount = parseFloat(amount.payload);
 
-            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
-            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+            const billingModel = new billing(state.amount, state.province, state.convCurrency);
+            const conversion = executeConversion(billingModel, state.rateDefinition);
+            state.billingModel = conversion.billingModel;
+            state.convertedAmountList = conversion.convertedAmountList;
         },
         updateShowBidSection: (state, checked) => {
             state.showBidSection = checked.payload;
@@ -33,41 +51,58 @@ export const billSlice = createSlice({
             const type = data.payload;
             state.amount = type === 'add' ? state.amount + state.bidAmount : state.amount - state.bidAmount;
 
-            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
-            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+            const billingModel = new billing(state.amount, state.province, state.convCurrency);
+            const conversion = executeConversion(billingModel, state.rateDefinition);
+            state.billingModel = conversion.billingModel;
+            state.convertedAmountList = conversion.convertedAmountList;
         },
         updateProvince: (state, province) => {
             state.province = province.payload;
 
-            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
-            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+            const billingModel = new billing(state.amount, state.province, state.convCurrency);
+            const conversion = executeConversion(billingModel, state.rateDefinition);
+            state.billingModel = conversion.billingModel;
+            state.convertedAmountList = conversion.convertedAmountList;
         },
-        updateCurrency: async (state, convCurrency) => {
+        updateCurrency: (state, convCurrency) => {
             state.convCurrency = convCurrency.payload;
-            if(state.convCurrency === 'CAD'){
-                state.conversionRate = (await getRate(state.convCurrency).then((rate) =>{
-                    state.convertedAmountList = buildConvertedAmountList(state.billingModel, rate);
-                    return rate;
-                }))
-            }
-        },
-        convertCurrency: async (state, currency) => {
-            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+
+            const billingModel = new billing(state.amount, state.province, state.convCurrency);
+            const conversion = executeConversion(billingModel, state.rateDefinition);
+            state.billingModel = conversion.billingModel;
+            state.convertedAmountList = conversion.convertedAmountList;
         },
         updateBill: (state) => {
-            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
-            state.convertedAmountList = buildConvertedAmountList(state.billingModel, state.conversionRate);
+            const conversion = executeConversion(state.billingModel, state.rateDefinition);
+            state.billingModel = conversion.billingModel;
+            state.convertedAmountList = conversion.convertedAmountList;
         },
         reset: (state) => {
             state.amount = 0;
             state.bidAmount = 0;
-            state.billingModel = JSON.stringify(new billing(state.amount, state.province, state.convCurrency));
+            state.billingModel = new billing(state.amount, state.province, state.convCurrency);
             state.convertedAmountList = [];
         },
     },
+    // extraReducers: {
+    //     [fetchCurrencyRate.fulfilled]: (state, action) => {
+    //         debugger
+    //         const {currency, rate} = action.payload;
+    //         state.rateDefinition[currency] = rate;
+    //     },
+    // },
+    // extraReducers: (builder) => {
+    //     // Add reducers for additional action types here, and handle loading state as needed
+    //     builder.addCase(fetchCurrencyRate.fulfilled, (state, action) => {
+    //         // Add user to the state array
+    //         debugger
+    //         state.name;
+    //         state.rateDefinition.push(action.payload);
+    //     })
+    // },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateAmount, updateProvince, updateCurrency, updateBidAmount, executeBidAction, reset, updateShowBidSection } = billSlice.actions
+export const { updateAmount, updateProvince, updateCurrency, updateBidAmount, executeBidAction, reset, updateShowBidSection, updateDefinitionRate } = billSlice.actions
 
 export default billSlice.reducer

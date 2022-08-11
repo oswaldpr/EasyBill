@@ -5,6 +5,8 @@ export class singleRow{
         this.title = title;
         this.state = state;
         this.amount = amount;
+        this.currency = 'CAD';
+        this.convCurrency = 'CAD';
         this.GST = 0;
         this.PST = 0;
         this.HST = 0;

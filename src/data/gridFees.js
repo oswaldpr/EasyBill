@@ -39,11 +39,11 @@ export function productFeesDefinition(productAmount, state) {
         purchaseFees: {'title': 'Purchase fee', 'amount': 0},
         exitFees: {'title': 'Exit fee', 'amount': 0},
         auctionNowFees: {'title': 'AuctionNow fee', 'amount': 0},
+        environmentalFees: {'title': 'Environmental fee', 'amount': 10}, //Fixed amount
     };
 
     if(state === 'QC'){
         productFees.vehicleTransferFees = {'title': 'Non dealer vehicle transfer fee for QC', 'amount': 50}; //Fixed amount
-        productFees.environmentalFees = {'title': 'Environmental fee', 'amount': 10}; //Fixed amount
     }
 
     if(state === 'ON'){
