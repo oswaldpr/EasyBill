@@ -93,6 +93,6 @@ export function buildCompanyBillingModelFromState(state) {
     const companyBillingModel = new billing(billingModel.total, state.province, state.convCurrency, false);
     const companyRowList = initCompanyFeesRows(billingModel.total, state.city, state.runDrive);
     companyBillingModel.updateRowList(companyRowList);
-    debugger
+
     return executeConversion(companyBillingModel, state.rateDefinition);
 }

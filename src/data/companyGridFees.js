@@ -24,7 +24,7 @@ export function companyFeesDefinition(amount = 0, city = 'Montreal', runDrive = 
     return {
         productTotalAmount: {'title': 'Product total amount', 'amount': amount},
         serviceFees: {'title': 'Service fee', 'amount': 200},
-        runDriveFee: runDrive ? {'title': 'No run No drive', 'amount': 100} : {'title': 'Run and drive', 'amount': 50},
+        runDriveFee: runDrive ? {'title': 'Run and drive', 'amount': 50} : {'title': 'No run No drive', 'amount': 100},
         towingFee: {'title': 'Towing fee from ' + city, 'amount': towingFeeAmount}
     };
 }

@@ -30,7 +30,7 @@ export function CompanyBill() {
                     </div>
                     <div className="section_checkbox width_50">
                         <input name="runDrive" type="checkbox" onChange={(e) => dispatch(updateRunDrive(e.target.checked))}/>
-                        <label htmlFor="runDrive">Does the car run and drive?</label>
+                        <label htmlFor="runDrive">The car runs and drives</label>
                     </div>
                 </div>
                 <Table model={companyBillingModel}/>
