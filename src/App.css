@@ -31,6 +31,31 @@
   }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+  width: 40%;
+  -moz-appearance:textfield; /* Firefox */
+}
+
+label {
+  font-size: large;
+  margin-left: 2%;
+}
+
+.width_40 {
+  width: 40%;
+}
+
+.width_50 {
+  width: 50%;
+}
+
 .flex {
   display: flex;
 }
@@ -52,25 +77,34 @@
 }
 
 .section {
-  margin-bottom: 2%;
+  margin: 3% 0;
   width: 100%;
+  justify-content: center;
 }
 
 .selectors, .showBidSection_checkbox {
-  display: flex;
   position: relative;
   line-height: 2em;
+}
+
+.showBidSection_bid input{
+  width: 25%;
+  margin: 0 5%;
 }
 
 .selectors div {
   margin: auto 1%;
 }
 
-.selectors button {
-
+.amount input{
+  font-size: x-large;
 }
 
-select, input {
+.size_medium{
+  font-size: medium;
+}
+
+select, input[type=number] {
   border: 1px solid #ccc;
   border-radius: 5px;
   height: 2em;
@@ -84,10 +118,12 @@ select, input {
 
 .billing_table{
   text-align: right;
+  padding: 2%;
 }
 
 .billing_table .title{
   text-align: left;
+  width: 30%;
 }
 
 .billing_table td{

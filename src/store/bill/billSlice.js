@@ -20,7 +20,7 @@ export const billSlice = createSlice({
         lang: 'fr',
         amount: 0,
         showBidSection: false,
-        bidAmount: 0,
+        bidAmount: null,
         province: 'QC',
         convCurrency: 'CAD',
         conversionRate: 0,
@@ -48,13 +48,15 @@ export const billSlice = createSlice({
             state.bidAmount = parseFloat(bidAmount.payload);
         },
         executeBidAction: (state, data) => {
-            const type = data.payload;
-            state.amount = type === 'add' ? state.amount + state.bidAmount : state.amount - state.bidAmount;
+            if(state.bidAmount){
+                const type = data.payload;
+                state.amount = type === 'add' ? state.amount + state.bidAmount : state.amount - state.bidAmount;
 
-            const billingModel = new billing(state.amount, state.province, state.convCurrency);
-            const conversion = executeConversion(billingModel, state.rateDefinition);
-            state.billingModel = conversion.billingModel;
-            state.convertedAmountList = conversion.convertedAmountList;
+                const billingModel = new billing(state.amount, state.province, state.convCurrency);
+                const conversion = executeConversion(billingModel, state.rateDefinition);
+                state.billingModel = conversion.billingModel;
+                state.convertedAmountList = conversion.convertedAmountList;
+            }
         },
         updateProvince: (state, province) => {
             state.province = province.payload;
@@ -79,7 +81,7 @@ export const billSlice = createSlice({
         },
         reset: (state) => {
             state.amount = 0;
-            state.bidAmount = 0;
+            state.bidAmount = null;
             state.billingModel = new billing(state.amount, state.province, state.convCurrency);
             state.convertedAmountList = [];
         },

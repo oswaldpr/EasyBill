@@ -8,9 +8,7 @@ function App() {
     return (
     <div className="App">
         <div>
-            <a href="https://reactjs.org" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
+            <a><img src={reactLogo} className="logo react" alt="React logo" /></a>
         </div>
         <Bill />
         {/*<BillingTable />*/}
