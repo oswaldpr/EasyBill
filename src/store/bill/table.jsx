@@ -1,10 +1,7 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import TableRow from "../../components/tableRow.jsx";
 import {getHeaderRowList, getSummaryRowDefinition} from "../../data/helper.js";
 
 export function Table(props) {
-    let tableHtml = '';
     const model = props.model;
 
     const headRow = getHeaderRowList(model);

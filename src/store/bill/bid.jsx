@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {executeBidAction, updateBidAmount, updateShowBidSection} from "./billSlice.js";
 
@@ -11,7 +10,7 @@ export function Bid() {
 
     return (
         <div className="section">
-            <div className="showBidSection_checkbox">
+            <div className="section_checkbox">
                 <input name="showBidSection" type="checkbox" onChange={(e) => dispatch(updateShowBidSection(e.target.checked))}/>
                 <label htmlFor="showBidSection">Show bid section</label>
             </div>

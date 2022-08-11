@@ -1,4 +1,7 @@
-export function companyFeesDefinition(city = 'Montreal', runDrive = false) {
+import {billing} from "../models/billing.js";
+import {executeConversion} from "./helper.js";
+
+export function companyFeesDefinition(amount = 0, city = 'Montreal', runDrive = false) {
     let towingFeeAmount = 95;
     switch (city) {
         case 'Montreal':
@@ -19,15 +22,16 @@ export function companyFeesDefinition(city = 'Montreal', runDrive = false) {
     }
 
     return {
+        productTotalAmount: {'title': 'Product total amount', 'amount': amount},
         serviceFees: {'title': 'Service fee', 'amount': 200},
         runDriveFee: runDrive ? {'title': 'No run No drive', 'amount': 100} : {'title': 'Run and drive', 'amount': 50},
         towingFee: {'title': 'Towing fee from ' + city, 'amount': towingFeeAmount}
     };
 }
 
-export function initCompanyFeesRows(city, runDrive) {
+export function initCompanyFeesRows(amount = 0, city, runDrive) {
     let rowList = [];
-    const singleFee = companyFeesDefinition(city, runDrive);
+    const singleFee = companyFeesDefinition(amount, city, runDrive);
     for (const [key, definition] of Object.entries(singleFee)) {
         rowList.push({'title': definition.title, 'amount': definition.amount, 'handleQST': true});
     }

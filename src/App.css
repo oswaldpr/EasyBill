@@ -112,7 +112,7 @@ th, .summary {
   justify-content: center;
 }
 
-.selectors, .showBidSection_checkbox {
+.selectors, .section_checkbox {
   position: relative;
   line-height: 2em;
 }

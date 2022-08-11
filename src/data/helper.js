@@ -1,4 +1,6 @@
 import {taxesList} from "./taxGridFees.js";
+import {billing} from "../models/billing.js";
+import {initCompanyFeesRows} from "./companyGridFees.js";
 
 export function getHeaderRowList(billingModel) {
     let headRow = [];
@@ -50,7 +52,6 @@ export function buildConvertedAmountRow(title, amount, conversionRate = 0) {
 }
 
 export function executeConversion(billingModel, rateDefinition = 0) {
-    let convertedAmountList = [];
     if(billingModel){
         billingModel = typeof billingModel === 'string' ? JSON.parse(billingModel) : billingModel;
         const currency = billingModel.convCurrency;
@@ -61,31 +62,37 @@ export function executeConversion(billingModel, rateDefinition = 0) {
                 row.convCurrency = currency;
                 const totalConverted = row.amountWithTaxes * conversionRate;
                 row.totalConverted = totalConvertedDisplay(totalConverted, currency);
-                const convertedRow = buildConvertedAmountRow(row.title, row.amountWithTaxes, conversionRate);
-                convertedAmountList.push(convertedRow);
             }
 
             const totalConverted = billingModel.total * conversionRate;
             billingModel.totalConverted = totalConvertedDisplay(totalConverted, currency);
-
-            const convertedRow = buildConvertedAmountRow('Total ' + currency, billingModel.total, conversionRate);
-            convertedAmountList.push(convertedRow);
         }
     }
 
-    return {
-        'billingModel': billingModel,
-        'convertedAmountList': convertedAmountList,
+    return billingModel;
+}
+
+function totalConvertedDisplay(amount, currency){
+    let amountDisplayed;
+    if(amount === 0){
+        amountDisplayed = amount;
+    } else {
+        amountDisplayed = currency === 'XOF' ? parseInt(amount) : amount.toFixed(2);
     }
 
-    function totalConvertedDisplay(amount, currency){
-        let amountDisplayed;
-        if(amount === 0){
-            amountDisplayed = amount;
-        } else {
-            amountDisplayed = currency === 'XOF' ? parseInt(amount) : amount.toFixed(2);
-        }
+    return amountDisplayed + ' ' + currency;
+}
 
-        return amountDisplayed + ' ' + currency;
-    }
+export function buildProductBillingModelFromState(state){
+    const billingModel = new billing(state.amount, state.province, state.convCurrency);
+    return executeConversion(billingModel, state.rateDefinition);
+}
+
+export function buildCompanyBillingModelFromState(state) {
+    const billingModel = state.billingModel;
+    const companyBillingModel = new billing(billingModel.total, state.province, state.convCurrency, false);
+    const companyRowList = initCompanyFeesRows(billingModel.total, state.city, state.runDrive);
+    companyBillingModel.updateRowList(companyRowList);
+    debugger
+    return executeConversion(companyBillingModel, state.rateDefinition);
 }

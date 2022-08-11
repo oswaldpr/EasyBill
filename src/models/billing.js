@@ -4,18 +4,20 @@ import {productFeesDefinition} from "../data/productGridFees.js";
 import {getRate} from "../data/currencyApi.js";
 
 export class billing {
-    constructor(amount, state, convCurrency = 'CAD', rowsList = null) {
+    constructor(amount, state, convCurrency = 'CAD', initRowsList = true) {
         const currency = 'CAD';
         this.amount = amount;
         this.currency = currency;
         this.convCurrency = convCurrency || currency;
         this.purchaseState = state;
-        this.rows = rowsList || this.rowDefinitions();
         this.subtotal = 0; // total without taxes
         this.taxDetails = {}; // each taxes + total taxes
         this.total = 0; // total with taxes
         this.totalConverted = 0;
-        this.calculateTotal();
+        if(initRowsList){
+            this.rows = this.rowDefinitions();
+            this.calculateTotal();
+        }
     }
 
     initRows() {
@@ -44,7 +46,11 @@ export class billing {
         if(amount){
             this.amount = amount
         }
-        this.rows = rowList
+        let rowDefinitions = [];
+        rowList.forEach((row) => {
+            rowDefinitions.push(new singleRow(row.amount, this.purchaseState, row.otherTax, row.title, row.handleQST));
+        })
+        this.rows = rowDefinitions;
         this.calculateTotal();
     }
 

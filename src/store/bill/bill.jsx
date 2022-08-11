@@ -1,12 +1,11 @@
 import {getProvinceList} from "../../data/taxGridFees.js";
 import {getCurrencyList, getRateDefinition} from "../../data/currencyApi.js";
 import {useDispatch, useSelector} from "react-redux";
-import {reset, updateAmount, updateCurrency, updateDefinitionRate, updateProvince} from "./billSlice.js";
-import TableRow from "../../components/tableRow.jsx";
-import {getHeaderRowList, getSummaryRowDefinition} from "../../data/helper.js";
+import {reset, updateAmount, updateCurrency, updateDefinitionRate, updateProvince,} from "./billSlice.js";
 import {Bid} from "./bid";
 import Amount from "../../components/amount";
 import {Table} from "./table.jsx";
+import {CompanyBill} from "./companyBill";
 
 
 export default function Bill() {
@@ -16,8 +15,8 @@ export default function Bill() {
     const rateDefinition = useSelector((state) => state.bill.rateDefinition);
     let billingModel = useSelector((state) => state.bill.billingModel);
     billingModel = typeof billingModel === 'string' ? JSON.parse(billingModel) : billingModel;
-    let finalModel = useSelector((state) => state.bill.finalModel);
-    finalModel = typeof finalModel === 'string' ? JSON.parse(finalModel) : finalModel;
+    let companyBillingModel = useSelector((state) => state.bill.companyBillingModel);
+    companyBillingModel = typeof companyBillingModel === 'string' ? JSON.parse(companyBillingModel) : companyBillingModel;
 
     let totalCAD;
     let totalConv;
@@ -42,7 +41,7 @@ export default function Bill() {
     })
 
     let impactTableHtml = '';
-    let finalTableHtml = '';
+    let companyTableHtml = '';
     if(billingModel){
         currency = billingModel.currency;
         totalCAD = billingModel.total > 0 ? billingModel.total : null;
@@ -52,8 +51,8 @@ export default function Bill() {
 
         impactTableHtml = (<Table model={billingModel}/>);
 
-        if(finalModel){
-            finalTableHtml = (<Table model={finalModel}/>);
+        if(companyBillingModel){
+            companyTableHtml = (<CompanyBill/>);
         }
     }
 
@@ -100,9 +99,7 @@ export default function Bill() {
                     {impactTableHtml}
                 </div>
 
-                <div className="section section_table">
-                    {finalTableHtml}
-                </div>
+                {companyTableHtml}
             </div>
         </div>
     )

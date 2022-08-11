@@ -106,12 +106,6 @@ export function getProvinceList(lang = 'fr'){
     return provinceList;
 }
 
-export function provinceOptions(lang){
-    const provinceList = getProvinceList(lang);
-    let options = '';
-    provinceList.forEach((province) => {
-        options = options + '<option value="' + province.key + '">' + province.value + '</option>';
-    });
-
-    return options;
+export function getCityList(){
+    return ['Montreal', 'Quebec', 'Ottawa', 'Toronto', 'London'];
 }

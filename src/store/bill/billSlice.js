@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {billing} from "../../models/billing.js";
-import {executeConversion} from "../../data/helper.js";
+import {buildCompanyBillingModelFromState, buildProductBillingModelFromState,} from "../../data/helper.js";
 
 
 // export let fetchCurrencyRate = createAsyncThunk(
@@ -20,13 +20,16 @@ export const billSlice = createSlice({
         lang: 'fr',
         amount: 0,
         showBidSection: false,
+        showCompanyBillSection: false,
+        runDrive: false,
         bidAmount: null,
         province: 'QC',
+        city: 'Montreal',
         convCurrency: 'CAD',
         conversionRate: 0,
         rateDefinition: {'CAD': 1},
         billingModel : null,
-        finalModel : null,
+        companyBillingModel : null,
         convertedAmountList: [],
     },
     reducers: {
@@ -36,14 +39,14 @@ export const billSlice = createSlice({
         },
         updateAmount: (state, amount) => {
             state.amount = parseFloat(amount.payload);
-
-            const billingModel = new billing(state.amount, state.province, state.convCurrency);
-            const conversion = executeConversion(billingModel, state.rateDefinition);
-            state.billingModel = conversion.billingModel;
-            state.convertedAmountList = conversion.convertedAmountList;
+            state.billingModel = buildProductBillingModelFromState(state);
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
         updateShowBidSection: (state, checked) => {
             state.showBidSection = checked.payload;
+        },
+        updateShowCompanyBillSection: (state, checked) => {
+            state.showCompanyBillSection = checked.payload;
         },
         updateBidAmount: (state, bidAmount) => {
             state.bidAmount = parseFloat(bidAmount.payload);
@@ -52,39 +55,40 @@ export const billSlice = createSlice({
             if(state.bidAmount){
                 const type = data.payload;
                 state.amount = type === 'add' ? state.amount + state.bidAmount : state.amount - state.bidAmount;
-
-                const billingModel = new billing(state.amount, state.province, state.convCurrency);
-                const conversion = executeConversion(billingModel, state.rateDefinition);
-                state.billingModel = conversion.billingModel;
-                state.convertedAmountList = conversion.convertedAmountList;
+                state.billingModel = buildProductBillingModelFromState(state);
+                state.companyBillingModel = buildCompanyBillingModelFromState(state);
             }
         },
         updateProvince: (state, province) => {
             state.province = province.payload;
-
-            const billingModel = new billing(state.amount, state.province, state.convCurrency);
-            const conversion = executeConversion(billingModel, state.rateDefinition);
-            state.billingModel = conversion.billingModel;
-            state.convertedAmountList = conversion.convertedAmountList;
+            state.billingModel = buildProductBillingModelFromState(state);
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
         updateCurrency: (state, convCurrency) => {
             state.convCurrency = convCurrency.payload;
-
-            const billingModel = new billing(state.amount, state.province, state.convCurrency);
-            const conversion = executeConversion(billingModel, state.rateDefinition);
-            state.billingModel = conversion.billingModel;
-            state.convertedAmountList = conversion.convertedAmountList;
+            state.billingModel = buildProductBillingModelFromState(state);
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
         updateBill: (state) => {
-            const conversion = executeConversion(state.billingModel, state.rateDefinition);
-            state.billingModel = conversion.billingModel;
-            state.convertedAmountList = conversion.convertedAmountList;
+            state.billingModel = buildProductBillingModelFromState(state);
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
         reset: (state) => {
             state.amount = 0;
             state.bidAmount = null;
             state.billingModel = new billing(state.amount, state.province, state.convCurrency);
             state.convertedAmountList = [];
+        },
+        updateCity: (state, city) => {
+            state.city = city.payload;
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
+        },
+        updateRunDrive: (state, runDrive) => {
+            state.runDrive = runDrive.payload;
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
+        },
+        updateCompanyBill: (state) => {
+            state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
     },
     // extraReducers: {
@@ -106,6 +110,8 @@ export const billSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateAmount, updateProvince, updateCurrency, updateBidAmount, executeBidAction, reset, updateShowBidSection, updateDefinitionRate } = billSlice.actions
+export const { updateAmount, updateProvince, updateCurrency, updateBidAmount,
+    executeBidAction, reset, updateShowBidSection, updateDefinitionRate,
+    updateShowCompanyBillSection, updateCity, updateRunDrive } = billSlice.actions
 
 export default billSlice.reducer
