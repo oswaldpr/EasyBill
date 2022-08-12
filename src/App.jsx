@@ -1,6 +1,5 @@
 import reactLogo from './assets/react.svg'
 import './App.css'
-import BillingTable from "./components/billingTable.jsx";
 import Bill from "./store/bill/bill.jsx";
 
 function App() {
@@ -11,7 +10,6 @@ function App() {
             <a><img src={reactLogo} className="logo react" alt="React logo" /></a>
         </div>
         <Bill />
-        {/*<BillingTable />*/}
     </div>
   )
 }

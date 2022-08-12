@@ -52,7 +52,7 @@ export default function Bill() {
 
         const bigTotalCAD = addition(billingModel.total, companyBillingModel.total);
 
-        let totalHeadList = ['Impact', 'Senade', 'Total'];
+        let totalHeadList = ['Impact', 'Senande', 'Total'];
         let totalRowList = [billingModel.total, companyBillingModel.total, bigTotalCAD];
         let totalConvertedList = []
 
@@ -78,9 +78,9 @@ export default function Bill() {
 
         finalHtml = (
             <div>
-                <h2 className="section_title">Summary of cost</h2>
-                <p>Details of the fees below</p>
-                <table className="section table bigTotal">
+                <h2 className="section_title">Summary of costs</h2>
+                <p className="no-margin">Details of the fees below</p>
+                <table className="table bigTotal">
                     <thead>
                     <tr>
                         {totalHeadList.map((headTitle)=>{
@@ -107,41 +107,43 @@ export default function Bill() {
 
     return (
         <div>
-            <h1>Easy bill</h1>
+            <h1>Senande <br/> Easy Bill</h1>
             <div className="easy_bill_app">
-                <div className="section flex">
-                    <div className="amount width_50">
-                        <h3>Amount CAD: </h3>
-                        <input type="number" value={amount} onChange={(e) => dispatch(updateAmount(e.target.value))}/>
-                    </div>
+                <div className="first_screen">
+                    <div className="section flex">
+                        <div className="amount width_50">
+                            <h3>Amount CAD: </h3>
+                            <input type="number" value={amount} onChange={(e) => dispatch(updateAmount(e.target.value))}/>
+                        </div>
 
-                    <div className={classTotal}>
-                        <h3>Cost: </h3>
-                        <div>
-                            <h2><Amount amount={totalCAD} currency={currency}/></h2>
-                            <h2 className={classTotalConv}><Amount amount={totalConv}/></h2>
+                        <div className={classTotal}>
+                            <h3>Cost: </h3>
+                            <div>
+                                <h2><Amount amount={totalCAD} currency={currency}/></h2>
+                                <h2 className={classTotalConv}><Amount amount={totalConv}/></h2>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="selectors section flex">
-                    <div className="province_select width_50">
-                        <label>City: </label>
-                        <select className="size_medium width_50" name="city" onChange={(e) => dispatch(updateCity(e.target.value))}>
-                            {cityOptionList}
-                        </select>
+                    <div className="selectors section flex">
+                        <div className="province_select width_50">
+                            <div><label>City: </label></div>
+                            <select className="size_medium width_50" name="city" onChange={(e) => dispatch(updateCity(e.target.value))}>
+                                {cityOptionList}
+                            </select>
+                        </div>
+                        <div className="currency_select width_50">
+                            <div><label>Currency: </label></div>
+                            <select className="size_medium" name="currency" onChange={(e) => dispatch(updateCurrency(e.target.value))}>
+                                {currencyOptionList}
+                            </select>
+                        </div>
                     </div>
-                    <div className="currency_select width_50">
-                        <label>Currency: </label>
-                        <select className="size_medium" name="currency" onChange={(e) => dispatch(updateCurrency(e.target.value))}>
-                            {currencyOptionList}
-                        </select>
-                    </div>
-                </div>
 
-                <div className="section">
-                    <Bid />
-                    <button onClick={() => dispatch(reset())}>Reset</button>
+                    <div className="section">
+                        <Bid />
+                        <button onClick={() => dispatch(reset())}>Reset</button>
+                    </div>
                 </div>
 
                 <div className="section section_table">

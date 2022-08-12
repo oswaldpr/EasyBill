@@ -17,22 +17,20 @@ export function CompanyBill() {
 
     return (
         <div className="section section_table">
-            <div className="section_checkbox">
-                <input name="showCompanyBillingSection" type="checkbox" checked={showCompanyBillSection} onChange={(e) => dispatch(updateShowCompanyBillSection(e.target.checked))}/>
-                <label htmlFor="showCompanyBillingSection">Show company bill section</label>
-            </div>
-            <div className={showSectionClass}>
+            {/*<div className="section_checkbox">*/}
+            {/*    <input name="showCompanyBillingSection" type="checkbox" checked={showCompanyBillSection} onChange={(e) => dispatch(updateShowCompanyBillSection(e.target.checked))}/>*/}
+            {/*    <label htmlFor="showCompanyBillingSection">Show company bill section</label>*/}
+            {/*</div>*/}
+            <div className="">
                 <h2 className="section_title">Senande fees</h2>
-                <div className="selectors section">
-                    <div className="">
-                        <div className="section_checkbox">
-                            <input name="hasRunDrive" type="checkbox" onChange={(e) => dispatch(updateHasRunDrive(e.target.checked))}/>
-                            <label htmlFor="hasRunDrive">Container</label>
-                        </div>
-                        <div className={runDriveClass}>
-                            <input name="runDrive" type="checkbox" onChange={(e) => dispatch(updateRunDrive(e.target.checked))}/>
-                            <label htmlFor="runDrive">The car runs and drives</label>
-                        </div>
+                <div className="selectors">
+                    <div className="section_checkbox">
+                        <input name="hasRunDrive" type="checkbox" onChange={(e) => dispatch(updateHasRunDrive(e.target.checked))}/>
+                        <label htmlFor="hasRunDrive">Container</label>
+                    </div>
+                    <div className={runDriveClass}>
+                        <input name="runDrive" type="checkbox" onChange={(e) => dispatch(updateRunDrive(e.target.checked))}/>
+                        <label htmlFor="runDrive">The car runs and drives</label>
                     </div>
                 </div>
                 <Table model={companyBillingModel}/>

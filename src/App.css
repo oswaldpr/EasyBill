@@ -49,6 +49,12 @@ label {
   margin-left: 2%;
 }
 
+select {
+  min-width: 150px;
+  font-size: large;
+  margin-left: 2%;
+}
+
 select, input[type=number] {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -61,9 +67,14 @@ select, input[type=number] {
   display: none;
 }
 
+.no-margin {
+  margin: 0;
+}
+
 .section_title {
   text-transform: uppercase;
   margin-top: 5%;
+  margin-bottom: 0;
 }
 
 table{
@@ -85,6 +96,13 @@ table.bigTotal, table.bigTotal .title {
 table td{
   margin: 0 2%;
 }
+
+table thead tr th {
+  /*background: aliceblue;*/
+  line-height: 2em;
+}
+
+/*tr:nth-child(even) {background-color: #f2f2f2;}*/
 
 th, .summary {
   font-weight: 800;
@@ -119,7 +137,7 @@ th, .summary {
 }
 
 .section {
-  margin: 3% 0;
+  margin: 5% 0;
   width: 100%;
   justify-content: center;
 }
@@ -127,6 +145,10 @@ th, .summary {
 .selectors, .section_checkbox {
   position: relative;
   line-height: 2em;
+}
+
+.showBidSection_bid{
+  margin-bottom: 2%;
 }
 
 .showBidSection_bid input{

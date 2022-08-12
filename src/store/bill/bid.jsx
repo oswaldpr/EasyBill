@@ -9,7 +9,7 @@ export function Bid() {
     const showBidSectionClass = showBidSection ? 'margin-auto showBidSection_bid' : 'margin-auto showBidSection_bid hidden';
 
     return (
-        <div className="section">
+        <div className="">
             <div className="section_checkbox">
                 <input name="showBidSection" type="checkbox" onChange={(e) => dispatch(updateShowBidSection(e.target.checked))}/>
                 <label htmlFor="showBidSection">Show bid section</label>
