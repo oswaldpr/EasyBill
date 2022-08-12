@@ -6,7 +6,7 @@ import {Bid} from "./bid";
 import Amount from "../../components/amount";
 import {Table} from "./table.jsx";
 import {CompanyBill} from "./companyBill";
-import {addition} from "../../data/helper";
+import {BigTotal} from "./bigTotal.jsx";
 
 
 export default function Bill() {
@@ -43,6 +43,7 @@ export default function Bill() {
     let impactTableHtml = '';
     let companyTableHtml = '';
     let finalHtml = '';
+
     if(billingModel && amount > 0){
         currency = billingModel.currency;
         totalCAD = billingModel.total > 0 ? billingModel.total : null;
@@ -50,20 +51,7 @@ export default function Bill() {
         classTotal = totalCAD ? 'width_50' : 'hidden width_50';
         classTotalConv = billingModel.totalConverted === 0 ? 'hidden' : '';
 
-        const bigTotalCAD = addition(billingModel.total, companyBillingModel.total);
-
-        let totalHeadList = ['Impact', 'Senande', 'Total'];
-        let totalRowList = [billingModel.total, companyBillingModel.total, bigTotalCAD];
-        let totalConvertedList = []
-
-        if(billingModel.convCurrency !== 'CAD'){
-            const convCurrency = billingModel.convCurrency;
-            const rate = rateDefinition[convCurrency];
-            const totalConv = bigTotalCAD * rate;
-            const totalConvDevise = parseInt(totalConv) + ' ' + convCurrency;
-
-            totalConvertedList = [billingModel.totalConverted, companyBillingModel.totalConverted, totalConvDevise];
-        }
+        finalHtml = (<BigTotal/>)
 
         impactTableHtml = (
             <div>
@@ -75,39 +63,11 @@ export default function Bill() {
         if(companyBillingModel){
             companyTableHtml = (<CompanyBill/>);
         }
-
-        finalHtml = (
-            <div>
-                <h2 className="section_title">Summary of costs</h2>
-                <p className="no-margin">Details of the fees below</p>
-                <table className="table bigTotal">
-                    <thead>
-                    <tr>
-                        {totalHeadList.map((headTitle)=>{
-                            return <th>{headTitle}</th>
-                        })}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        {totalRowList.map((singleRow)=>{
-                            return <td><Amount amount={singleRow}/></td>
-                        })}
-                    </tr>
-                    <tr>
-                        {totalConvertedList.map((singleRow)=>{
-                            return <td><Amount amount={singleRow}/></td>
-                        })}
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        )
     }
 
     return (
         <div>
-            <h1>Senande <br/> Easy Bill</h1>
+            <h1>Senande<br/>Easy Bill</h1>
             <div className="easy_bill_app">
                 <div className="first_screen">
                     <div className="section flex">
