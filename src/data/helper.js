@@ -86,7 +86,7 @@ export function buildProductBillingModelFromState(state){
 
 export function buildCompanyBillingModelFromState(state) {
     const billingModel = state.billingModel;
-    const companyBillingModel = new billing(billingModel.total, state.province, state.convCurrency, false);
+    const companyBillingModel = new billing(billingModel.total, 'QC', state.convCurrency, false);
     const companyRowList = initCompanyFeesRows(billingModel.total, state.city, state.hasRunDrive, state.runDrive);
     companyBillingModel.updateRowList(companyRowList);
 

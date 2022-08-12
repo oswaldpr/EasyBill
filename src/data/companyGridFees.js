@@ -1,6 +1,3 @@
-import {billing} from "../models/billing.js";
-import {executeConversion} from "./helper.js";
-
 export function companyFeesDefinition(amount = 0, city = 'Montreal', hasRunDrive, runDrive = false) {
     let towingFeeAmount = 95;
     switch (city) {

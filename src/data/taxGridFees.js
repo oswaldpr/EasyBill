@@ -109,3 +109,20 @@ export function getProvinceList(lang = 'fr'){
 export function getCityList(){
     return ['Montreal', 'Quebec', 'Ottawa', 'Toronto', 'London'];
 }
+
+export function getProvinceCity(city){
+    let province = 'QC';
+    switch (city) {
+        case 'Montreal':
+        case 'Quebec':
+            province = 'QC';
+            break
+        case 'Ottawa':
+        case 'Toronto':
+        case 'London':
+            province = 'ON';
+            break
+    }
+
+    return province;
+}

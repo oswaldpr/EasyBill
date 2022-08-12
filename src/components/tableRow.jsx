@@ -1,4 +1,3 @@
-import TaxDetail from "./taxDetail.jsx";
 import Amount from "./amount.jsx";
 import {taxesList} from "../data/taxGridFees.js";
 

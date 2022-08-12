@@ -6,7 +6,7 @@ export function Table(props) {
 
     const headRow = getHeaderRowList(model);
     const summaryRow = getSummaryRowDefinition(model);
-    const tableClass = model.amount > 0 ? 'billing_table section' : 'billing_table section hidden';
+    const tableClass = model.amount > 0 ? 'billing_table' : 'billing_table hidden';
 
     return (
         <table className={tableClass}>

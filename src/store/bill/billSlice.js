@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {billing} from "../../models/billing.js";
 import {buildCompanyBillingModelFromState, buildProductBillingModelFromState,} from "../../data/helper.js";
+import {getProvinceCity} from "../../data/taxGridFees.js";
 
 
 // export let fetchCurrencyRate = createAsyncThunk(
@@ -82,6 +83,11 @@ export const billSlice = createSlice({
         },
         updateCity: (state, city) => {
             state.city = city.payload;
+            const province = getProvinceCity(state.city);
+            if(province !== state.province){
+                state.province = province;
+                state.billingModel = buildProductBillingModelFromState(state);
+            }
             state.companyBillingModel = buildCompanyBillingModelFromState(state);
         },
         updateHasRunDrive: (state, hasRunDrive) => {

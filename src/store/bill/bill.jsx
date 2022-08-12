@@ -1,11 +1,12 @@
-import {getProvinceList} from "../../data/taxGridFees.js";
+import {getCityList} from "../../data/taxGridFees.js";
 import {getCurrencyList, getRateDefinition} from "../../data/currencyApi.js";
 import {useDispatch, useSelector} from "react-redux";
-import {reset, updateAmount, updateCurrency, updateDefinitionRate, updateProvince,} from "./billSlice.js";
+import {reset, updateAmount, updateCity, updateCurrency, updateDefinitionRate, updateProvince,} from "./billSlice.js";
 import {Bid} from "./bid";
 import Amount from "../../components/amount";
 import {Table} from "./table.jsx";
 import {CompanyBill} from "./companyBill";
+import {addition} from "../../data/helper";
 
 
 export default function Bill() {
@@ -34,31 +35,72 @@ export default function Bill() {
         return <option key={currency} value={currency}>{currency}</option>
     })
 
-
-    const provinceList = getProvinceList(lang);
-    let provinceOptionList = provinceList.map((province)=>{
-        return <option key={province.key} value={province.key}>{province.value}</option>
+    const cityList = getCityList();
+    let cityOptionList = cityList.map((city)=>{
+        return <option key={city} value={city}>{city}</option>
     })
 
     let impactTableHtml = '';
     let companyTableHtml = '';
     let finalHtml = '';
-    if(billingModel){
+    if(billingModel && amount > 0){
         currency = billingModel.currency;
         totalCAD = billingModel.total > 0 ? billingModel.total : null;
         totalConv = billingModel.totalConverted ? billingModel.totalConverted : null;
         classTotal = totalCAD ? 'width_50' : 'hidden width_50';
         classTotalConv = billingModel.totalConverted === 0 ? 'hidden' : '';
 
-        impactTableHtml = (<Table model={billingModel}/>);
+        const bigTotalCAD = addition(billingModel.total, companyBillingModel.total);
+
+        let totalHeadList = ['Impact', 'Senade', 'Total'];
+        let totalRowList = [billingModel.total, companyBillingModel.total, bigTotalCAD];
+        let totalConvertedList = []
+
+        if(billingModel.convCurrency !== 'CAD'){
+            const convCurrency = billingModel.convCurrency;
+            const rate = rateDefinition[convCurrency];
+            const totalConv = bigTotalCAD * rate;
+            const totalConvDevise = parseInt(totalConv) + ' ' + convCurrency;
+
+            totalConvertedList = [billingModel.totalConverted, companyBillingModel.totalConverted, totalConvDevise];
+        }
+
+        impactTableHtml = (
+            <div>
+                <h2 className="section_title">Impact fees</h2>
+                <Table model={billingModel}/>
+            </div>
+        );
 
         if(companyBillingModel){
             companyTableHtml = (<CompanyBill/>);
         }
 
         finalHtml = (
-            <div className="section flex">
-
+            <div>
+                <h2 className="section_title">Summary of cost</h2>
+                <p>Details of the fees below</p>
+                <table className="section table bigTotal">
+                    <thead>
+                    <tr>
+                        {totalHeadList.map((headTitle)=>{
+                            return <th>{headTitle}</th>
+                        })}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {totalRowList.map((singleRow)=>{
+                            return <td><Amount amount={singleRow}/></td>
+                        })}
+                    </tr>
+                    <tr>
+                        {totalConvertedList.map((singleRow)=>{
+                            return <td><Amount amount={singleRow}/></td>
+                        })}
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         )
     }
@@ -74,7 +116,7 @@ export default function Bill() {
                     </div>
 
                     <div className={classTotal}>
-                        <h3>Total: </h3>
+                        <h3>Cost: </h3>
                         <div>
                             <h2><Amount amount={totalCAD} currency={currency}/></h2>
                             <h2 className={classTotalConv}><Amount amount={totalConv}/></h2>
@@ -84,9 +126,9 @@ export default function Bill() {
 
                 <div className="selectors section flex">
                     <div className="province_select width_50">
-                        <label>Province: </label>
-                        <select className="size_medium width_50" name="province" onChange={(e) => dispatch(updateProvince(e.target.value))}>
-                            {provinceOptionList}
+                        <label>City: </label>
+                        <select className="size_medium width_50" name="city" onChange={(e) => dispatch(updateCity(e.target.value))}>
+                            {cityOptionList}
                         </select>
                     </div>
                     <div className="currency_select width_50">
@@ -103,11 +145,14 @@ export default function Bill() {
                 </div>
 
                 <div className="section section_table">
+                    {finalHtml}
+                </div>
+
+                <div className="section section_table">
                     {impactTableHtml}
                 </div>
 
                 {companyTableHtml}
-                {finalHtml}
             </div>
         </div>
     )

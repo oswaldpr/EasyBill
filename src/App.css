@@ -1,5 +1,6 @@
 #root {
   max-width: 1280px;
+  min-width: 375px;
   margin: 0 auto;
   text-align: center;
 }
@@ -60,14 +61,25 @@ select, input[type=number] {
   display: none;
 }
 
+.section_title {
+  text-transform: uppercase;
+  margin-top: 5%;
+}
+
 table{
   text-align: right;
   padding: 2%;
+  width: 100%;
 }
 
 table .title{
   text-align: left;
   width: 30%;
+}
+
+table.bigTotal, table.bigTotal .title {
+  text-align: center;
+  font-size: 1.5em;
 }
 
 table td{
@@ -120,6 +132,10 @@ th, .summary {
 .showBidSection_bid input{
   width: 25%;
   margin: 0 5%;
+}
+
+.showBidSection_bid button{
+  font-size: 1.5em;
 }
 
 .selectors div {
