@@ -1,22 +1,7 @@
+import { getTowingFeeAmount } from "./taxGridFees.js";
+
 export function companyFeesDefinition(amount = 0, city = 'Montreal', hasRunDrive, runDrive = false) {
-    let towingFeeAmount = 95;
-    switch (city) {
-        case 'Montreal':
-            towingFeeAmount = 95;
-            break;
-        case 'Quebec':
-            towingFeeAmount = 250;
-            break;
-        case 'Ottawa':
-            towingFeeAmount = 250;
-            break;
-        case 'Toronto':
-            towingFeeAmount = 400;
-            break;
-        case 'London':
-            towingFeeAmount = 500;
-            break;
-    }
+    const towingFeeAmount = getTowingFeeAmount(city);
     const companyFees = {
         // productTotalAmount: {'title': 'Product total amount', 'amount': amount},
         serviceFees: {'title': 'Service fee', 'amount': 200},

@@ -5,7 +5,7 @@ import thunkMiddleware from "redux-thunk";
 
 export default configureStore({
     reducer: {
-        counter: counterReducer,
+        // counter: counterReducer,
         bill: billReducer,
     },
     middleware: [thunkMiddleware],

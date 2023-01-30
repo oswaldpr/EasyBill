@@ -81,6 +81,7 @@ export function provinceDefinition(){
     let provinceDefinition = {};
     provinceDefinition.QC = {'code': 'QC', 'fr': 'Quebec', 'en': 'Quebec'};
     provinceDefinition.ON = {'code': 'ON', 'fr': 'Ontario', 'en': 'Ontario'};
+    provinceDefinition.NS = {'code': 'NS', 'fr': 'Nova Scotia', 'en': 'Nova Scotia'};
 
     provinceDefinition.AB = {'code': 'AB', 'fr': 'Alberta', 'en': 'Alberta'};
     provinceDefinition.BC = {'code': 'BC', 'fr': 'British Columbia', 'en': 'British Columbia'};
@@ -88,7 +89,6 @@ export function provinceDefinition(){
     provinceDefinition.NB = {'code': 'NB', 'fr': 'New Brunswick', 'en': 'New Brunswick'};
     provinceDefinition.NL = {'code': 'NL', 'fr': 'Newfoundland and Labrador', 'en': 'Newfoundland and Labrador'};
     provinceDefinition.NT = {'code': 'NT', 'fr': 'Northwest Territories', 'en': 'Northwest Territories'};
-    provinceDefinition.NS = {'code': 'NS', 'fr': 'Nova Scotia', 'en': 'Nova Scotia'};
     provinceDefinition.NU = {'code': 'NU', 'fr': 'Nunavut', 'en': 'Nunavut'};
     provinceDefinition.PE = {'code': 'PE', 'fr': 'Prince Edward Island', 'en': 'Prince Edward Island'};
     provinceDefinition.SK = {'code': 'SK', 'fr': 'Saskatchewan', 'en': 'Saskatchewan'};
@@ -107,7 +107,7 @@ export function getProvinceList(lang = 'fr'){
 }
 
 export function getCityList(){
-    return ['Montreal', 'Quebec', 'Ottawa', 'Toronto', 'London'];
+    return ['Montreal', 'Quebec', 'Ottawa', 'Toronto', 'London', 'Halifax'];
 }
 
 export function getProvinceCity(city){
@@ -122,7 +122,36 @@ export function getProvinceCity(city){
         case 'London':
             province = 'ON';
             break
+        case 'Halifax':
+            province = 'NS';
+            break
     }
 
     return province;
+}
+
+export function getTowingFeeAmount(city){
+    let towingFeeAmount = 95;
+    switch (city) {
+        case 'Montreal':
+            towingFeeAmount = 95;
+            break;
+        case 'Quebec':
+            towingFeeAmount = 250;
+            break;
+        case 'Ottawa':
+            towingFeeAmount = 250;
+            break;
+        case 'Toronto':
+            towingFeeAmount = 400;
+            break;
+        case 'London':
+            towingFeeAmount = 500;
+            break;
+        case 'Halifax':
+            towingFeeAmount = 700;
+            break;
+    }
+
+    return towingFeeAmount;
 }
